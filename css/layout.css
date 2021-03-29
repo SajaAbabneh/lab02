@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=New+Tegomin&display=swap');
+
+h1{
+    text-align: center;
+    font-size: 35px;
+    margin-top: 20px;
+    font-family: 'New Tegomin', serif;
+}
+select{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 567px;
+    background-color: darkseagreen;
+}
+h2{
+    font-size: 30px;
+    font-weight: bold;
+    color: #06e79ce6;
+    margin-top: 18px;
+    margin-left: 45px;
+}
+.left{
+    float: left;
+}
+/* #photo-template{
+    visibility: visible;
+} */
