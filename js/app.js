@@ -27,8 +27,8 @@ Animal.all=[];
 
 Animal.prototype.render = function () {
     let animalClone = $('#photo-template').clone();
-    let moreOption = $('<option></option>').text(this.keyword);
-    $('select').append(moreOption);
+    // let moreOption = $('<option></option>').text(this.keyword);
+    // $('select').append(moreOption);
     console.log('t', this.title);
 
     animalClone.addClass(this.keyword);
