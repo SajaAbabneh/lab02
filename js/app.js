@@ -27,12 +27,14 @@ function anyPage() {
                 newOne.toHtml();
                 // newOne.noMore();
             })
-            noMore();
+
+            keywordOption();
             $('#photo-template').first().remove();
         })
 }
 anyPage();
 
+let keydowrds=[];
 function Animal(val) {
     this.title = val.title;
     this.image_url = val.image_url;
@@ -40,6 +42,9 @@ function Animal(val) {
     this.keyword = val.keyword;
     this.horns = val.horns;
     Animal.all.push(this);
+    if(!keydowrds.includes(this.keyword)){
+        keydowrds.push(this.keyword);
+    }
 }
 Animal.all = [];
 
@@ -52,43 +57,63 @@ Animal.prototype.toHtml = function () {
     $('main').append(dataSet);
 
 }
-function titleImage() {
 
-    Animal.all.sort((a, b) => {
-        if (a.title.toUpperCase() < b.title.toUpperCase()) {
-            return -1;
-        }
-        else if (a.title.toUpperCase() > b.title.toUpperCase())
-            return 1;
-
-        else
-            return 0;
-    });
-
-    function hornsImage() {
-
-        Animal.all.sort((a, b) => {
-            if (a.horns < b.horns) {
-                return -1;
-            }
-            else if (a.horns > b.horns)
-                return 1;
-            else
-                return 0;
-        });
-
+function keywordOption(){
+    for( let i = 0 ; i<keydowrds.length ; i++){
+         let keywordsList = $('option').first().clone().text(keydowrds[i]);
+         keywordsList.attr('value',keydowrds[i])
+         $('select').append(keywordsList);
     }
-
-
 }
 
-$('.select2').on('change', function () {
-    let option = $(this).val();
-
+$('.optionTitle').on('click', ()=> {
+    titleSort();
 });
 
+$('.optionHorns').on('click', ()=> {
+    hornsSort();
+});
 
+function titleSort() {
+    if(numOfpage === 'page-1' || numOfpage === 'page-2'){
+        Animal.all.sort((a, b) => {
+            if (a.title > b.title){
+             return 1;
+            }
+            if (a.title < b.title){
+                 return -1;
+            }
+            return 0;
+        });
 
+        $('main').html('');
+        anyPage();
+    }
+}
+    function hornsSort() {
+        if(numOfpage === 'page-1' || numOfpage === 'page-2'){
+            Animal.all.sort((a, b) => {
+                if (a.horns > b.horns){
+                 return 1;
+                }
+                if (a.horns < b.horns){
+                     return -1;
+                }
+                return 0;
+            });
+    
+            $('main').html('');
+        
+            anyPage();
+        }
+    }
+
+$('select').on('change', function () {
+    let itemSelect = this.value;
+    console.log('f', itemSelect);
+    $('section').hide();
+    $(`.${itemSelect}`).show();
+});
 
 // Animal.prototype.render = function () {
 //     let animalClone = $('#photo-template').clone();
@@ -106,24 +131,17 @@ $('.select2').on('change', function () {
 
 // }
 
-function noMore() {
-    let filterword = [];
-    Animal.all.forEach(val => {
-        if (!filterword.includes(val.keyword)) {
-            filterword.push(val.keyword);
-        }
-    })
-    filterword.forEach(val => {
-        let option = `<option value="${val}">${val}</option>`;
-        $('.select1').append(option);
-    })
+// function noMore() {
+//     let filterword = [];
+//     Animal.all.forEach(val => {
+//         if (!filterword.includes(val.keyword)) {
+//             filterword.push(val.keyword);
+//         }
+//     })
+//     filterword.forEach(val => {
+//         let option = `<option value="${val}">${val}</option>`;
+//         $('.select1').append(option);
+        
+//     })
 
-}
-
-$('select').on('change', function () {
-    let itemSelect = this.value;
-    console.log('f', itemSelect);
-    $('div').hide();
-    $(`.${itemSelect}`).show(800);
-});
-
+// }
