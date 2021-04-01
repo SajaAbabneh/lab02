@@ -25,7 +25,7 @@ function anyPage() {
                 let newOne = new Animal(val);
                 // console.log(newOne);
                 newOne.toHtml();
-                // newOne.noMore();
+                
             })
 
             keywordOption();
@@ -42,6 +42,7 @@ function Animal(val) {
     this.keyword = val.keyword;
     this.horns = val.horns;
     Animal.all.push(this);
+
     if(!keydowrds.includes(this.keyword)){
         keydowrds.push(this.keyword);
     }
@@ -62,57 +63,43 @@ function keywordOption(){
     for( let i = 0 ; i<keydowrds.length ; i++){
          let keywordsList = $('option').first().clone().text(keydowrds[i]);
          keywordsList.attr('value',keydowrds[i])
-         $('select').append(keywordsList);
+         $('.select1').append(keywordsList);
     }
 }
 
-$('.optionTitle').on('click', ()=> {
-    titleSort();
-});
-
-$('.optionHorns').on('click', ()=> {
-    hornsSort();
-});
-
-function titleSort() {
-    if(numOfpage === 'page-1' || numOfpage === 'page-2'){
-        Animal.all.sort((a, b) => {
-            if (a.title > b.title){
-             return 1;
-            }
-            if (a.title < b.title){
-                 return -1;
-            }
-            return 0;
-        });
-
-        $('main').html('');
-        anyPage();
-    }
-}
-    function hornsSort() {
-        if(numOfpage === 'page-1' || numOfpage === 'page-2'){
-            Animal.all.sort((a, b) => {
-                if (a.horns > b.horns){
-                 return 1;
-                }
-                if (a.horns < b.horns){
-                     return -1;
-                }
-                return 0;
-            });
-    
-            $('main').html('');
-        
-            anyPage();
-        }
-    }
 
 $('select').on('change', function () {
     let itemSelect = this.value;
     console.log('f', itemSelect);
     $('section').hide();
     $(`.${itemSelect}`).show();
+});
+
+//sort
+$('.select2').on('change',function(){
+    let sortValue=$(this).val();
+
+    if(sortValue == 'Title'){
+        Animal.all.sort(function(a,b){
+            if(a.title.toLowerCase()< b.title.toLowerCase()) return -1;
+            else if (a.title.toLowerCase()< b.title.toLowerCase()) return 1;
+            else return 0 ;
+        })
+        Animal.all.forEach(val => {
+            val.toHtml();
+        });
+
+    }else if (sortValue == 'Horns'){
+        Animal.all.sort(function(a,b){
+            if(a.horns< b.horns) return -1;
+            else if (a.horns < b.horns) return 1;
+            else return 0 ;
+    })
+        Animal.all.forEach(val => {
+        val.toHtml();
+    });
+}
+    
 });
 
 // Animal.prototype.render = function () {
@@ -131,17 +118,3 @@ $('select').on('change', function () {
 
 // }
 
-// function noMore() {
-//     let filterword = [];
-//     Animal.all.forEach(val => {
-//         if (!filterword.includes(val.keyword)) {
-//             filterword.push(val.keyword);
-//         }
-//     })
-//     filterword.forEach(val => {
-//         let option = `<option value="${val}">${val}</option>`;
-//         $('.select1').append(option);
-        
-//     })
-
-// }
